@@ -2,9 +2,9 @@ import 'dart:convert';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' hide VoidCallback;
 
-import 'package:example/data/data.dart';
-import 'package:example/screens/export_json.dart';
-import 'package:example/screens/settings.dart';
+import 'package:tempgen/data/data.dart';
+import 'package:tempgen/screens/export_json.dart';
+import 'package:tempgen/screens/settings.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart' as flutter_acrylic;

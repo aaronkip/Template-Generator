@@ -1,5 +1,5 @@
-name: example
-description: Showcase App for Fluent UI package for Flutter
+name: tempgen
+description: Template generator web and desktop application
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
