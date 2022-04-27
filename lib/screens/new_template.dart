@@ -1,0 +1,165 @@
+// ignore_for_file: avoid_print
+
+import 'package:fluent_ui/fluent_ui.dart';
+
+import '../data/data.dart';
+
+class NewTemplatePage extends StatefulWidget {
+  const NewTemplatePage({Key? key}) : super(key: key);
+
+  @override
+  _NewTemplatePageState createState() => _NewTemplatePageState();
+}
+
+class _NewTemplatePageState extends State<NewTemplatePage> {
+  final _clearController = TextEditingController();
+  TextEditingController titleEditingController = TextEditingController();
+  TextEditingController choicesEditingController = TextEditingController();
+
+  String? comboBoxValue;
+
+  DateTime date = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    _clearController.addListener(() {
+      if (_clearController.text.length == 1 && mounted) setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _clearController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaffoldPage.scrollable(
+      header:
+          const PageHeader(title: Center(child: Text('Create New Template'))),
+      children: [
+        const SizedBox(height: 20),
+        TextFormBox(
+          controller: titleEditingController,
+          header: 'Title',
+          placeholder: 'Enter title of the section',
+          autovalidateMode: AutovalidateMode.always,
+          validator: (text) {
+            if (text == null || text.isEmpty) return 'Title Required';
+            return null;
+          },
+          textInputAction: TextInputAction.next,
+          prefix: const Padding(
+            padding: EdgeInsetsDirectional.only(start: 8.0),
+            child: Icon(FluentIcons.title),
+          ),
+          keyboardType: TextInputType.text,
+        ),
+        const SizedBox(height: 20),
+        TextFormBox(
+          controller: choicesEditingController,
+          keyboardType: TextInputType.text,
+          header: 'Choices',
+          placeholder: 'Enter multiple choices separated by comma (,)',
+          autovalidateMode: AutovalidateMode.always,
+          validator: (text) {
+            if (text == null || text.isEmpty) {
+              return 'At least one choice required';
+            }
+            return null;
+          },
+          textInputAction: TextInputAction.next,
+          prefix: const Padding(
+            padding: EdgeInsetsDirectional.only(start: 8.0),
+            child: Icon(FluentIcons.choice_column),
+          ),
+        ),
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Chip.selected(
+              image: const CircleAvatar(
+                radius: 12.0,
+                child: Icon(
+                  FluentIcons.add,
+                  size: 14.0,
+                ),
+              ),
+              text: const Text('Add Section'),
+              onPressed: () {
+                setState(() {
+                  print(titleEditingController.text +
+                      " " +
+                      choicesEditingController.text);
+                  List<String> choices =
+                      splitChoices(choicesEditingController.text);
+
+                  sectionList.add({
+                    "data": {
+                      "title": titleEditingController.text,
+                      "choices": choices,
+                    }
+                  });
+                });
+
+                titleEditingController.clear();
+                choicesEditingController.clear();
+              },
+            ),
+          ],
+        ),
+        const SizedBox(height: 50),
+        const Center(
+          child: Text(
+            'Preview',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ),
+        const SizedBox(height: 20),
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Card(
+            elevation: 15,
+            child: ListView.builder(
+                itemCount: sectionList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${sectionList[index]['data']['title']}" ':',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(width: 10),
+                          Flexible(
+                            child: Text(
+                              "${sectionList[index]['data']['choices']}",
+                              style:
+                                  const TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      const Divider(),
+                      const SizedBox(height: 10),
+                    ],
+                  );
+                }),
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<String> splitChoices(String delimitedString) {
+    List<String> parts = delimitedString.split(',');
+    return parts;
+  }
+}
