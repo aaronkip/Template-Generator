@@ -2,6 +2,8 @@
 
 import 'package:clipboard/clipboard.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../data/data.dart';
 
@@ -119,6 +121,10 @@ class _NewNotePageState extends State<NewNotePage> {
                   child: TextFormBox(
                     onTap: () {
                       FlutterClipboard.copy(noteController.text);
+                      showTopSnackBar(
+                          context,
+                          const CustomSnackBar.success(
+                              message: "Note copied to clipboard"));
                     },
                     readOnly: true,
                     controller: noteController,
