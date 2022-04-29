@@ -20,7 +20,7 @@ class AppTheme extends ChangeNotifier {
     notifyListeners();
   }
 
-  PaneDisplayMode _displayMode = PaneDisplayMode.top;
+  PaneDisplayMode _displayMode = PaneDisplayMode.open;
   PaneDisplayMode get displayMode => _displayMode;
   set displayMode(PaneDisplayMode displayMode) {
     _displayMode = displayMode;

@@ -15,6 +15,7 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
   final _clearController = TextEditingController();
   TextEditingController titleEditingController = TextEditingController();
   TextEditingController choicesEditingController = TextEditingController();
+  TextEditingController notePostfixController = TextEditingController();
 
   String? comboBoxValue;
 
@@ -56,6 +57,26 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
             child: Icon(FluentIcons.title),
           ),
           keyboardType: TextInputType.text,
+        ),
+        const SizedBox(height: 20),
+        TextFormBox(
+          controller: notePostfixController,
+          keyboardType: TextInputType.text,
+          header:
+              'PostFix(Text that will be added to the notes after the choice)',
+          placeholder: 'Enter Text',
+          autovalidateMode: AutovalidateMode.always,
+          validator: (text) {
+            if (text == null || text.isEmpty) {
+              return 'This should not be empty';
+            }
+            return null;
+          },
+          textInputAction: TextInputAction.next,
+          prefix: const Padding(
+            padding: EdgeInsetsDirectional.only(start: 8.0),
+            child: Icon(FluentIcons.choice_column),
+          ),
         ),
         const SizedBox(height: 20),
         TextFormBox(
@@ -101,6 +122,7 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
                     "data": {
                       "title": titleEditingController.text,
                       "choices": choices,
+                      "postFix": notePostfixController.text
                     }
                   });
                 });

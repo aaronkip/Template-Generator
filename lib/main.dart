@@ -2,14 +2,16 @@ import 'dart:convert';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' hide VoidCallback;
 
-import 'package:tempgen/data/data.dart';
-import 'package:tempgen/screens/export_json.dart';
-import 'package:tempgen/screens/settings.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart' as flutter_acrylic;
 import 'package:provider/provider.dart';
 import 'package:system_theme/system_theme.dart';
+import 'package:tempgen/data/data.dart';
+import 'package:tempgen/screens/download_note.dart';
+import 'package:tempgen/screens/get_templates.dart';
+import 'package:tempgen/screens/new_note.dart';
+import 'package:tempgen/screens/settings.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:window_manager/window_manager.dart';
@@ -186,12 +188,16 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
           // It doesn't look good when resizing from compact to open
           // PaneItemHeader(header: Text('User Interaction')),
           PaneItem(
-            icon: const Icon(FluentIcons.new_folder),
-            title: const Text('New Template'),
+            icon: const Icon(FluentIcons.add_notes),
+            title: const Text('New Note'),
           ),
           PaneItem(
-            icon: const Icon(FluentIcons.export),
-            title: const Text('Export Json'),
+            icon: const Icon(FluentIcons.download),
+            title: const Text('Download'),
+          ),
+          PaneItem(
+            icon: const Icon(FluentIcons.list),
+            title: const Text('Templates'),
           ),
           PaneItemSeparator(),
         ],
@@ -203,24 +209,25 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
         footerItems: [
           PaneItemSeparator(),
           PaneItem(
+            icon: const Icon(FluentIcons.new_folder),
+            title: const Text('New Template'),
+          ),
+          PaneItem(
             icon: const Icon(FluentIcons.settings),
             title: const Text('Settings'),
           ),
-          /*_LinkPaneItemAction(
-            icon: const Icon(FluentIcons.open_source),
-            title: const Text('Source code'),
-            link: 'https://github.com/bdlukaa/fluent_ui',
-          ),*/
         ],
       ),
       content: NavigationBody(index: index, children: [
-        const NewTemplatePage(),
-        const ExportJSON(),
+        const NewNotePage(),
+        const DownloadNote(),
+        const GetTemplates(),
         /*const TypographyPage(),
         const Mobile(),
         const CommandBars(),
         const FlyoutShowcase(),
         const Others(),*/
+        const NewTemplatePage(),
         Settings(controller: settingsController),
       ]),
     );

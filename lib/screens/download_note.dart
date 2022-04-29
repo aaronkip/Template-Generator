@@ -10,16 +10,16 @@ import 'package:provider/provider.dart';
 import '../data/data.dart';
 import '../theme.dart';
 
-class ExportJSON extends StatefulWidget {
-  const ExportJSON({Key? key, this.controller}) : super(key: key);
+class DownloadNote extends StatefulWidget {
+  const DownloadNote({Key? key, this.controller}) : super(key: key);
 
   final ScrollController? controller;
 
   @override
-  State<ExportJSON> createState() => _ExportJSONState();
+  State<DownloadNote> createState() => _DownloadNoteState();
 }
 
-class _ExportJSONState extends State<ExportJSON> {
+class _DownloadNoteState extends State<DownloadNote> {
   List<String> supportedFormats = ["JSON", "Text", "Markdown"];
 
   @override
@@ -84,7 +84,7 @@ class _ExportJSONState extends State<ExportJSON> {
               child: const Text('Yes'),
               onPressed: () {
                 download(sectionList.toString().codeUnits,
-                    downloadName: "template.json");
+                    downloadName: "template.txt");
                 Navigator.pop(context);
               },
             ),
@@ -107,9 +107,10 @@ class _ExportJSONState extends State<ExportJSON> {
     // Encode our file in base64
     final _base64 = base64Encode(bytes);
     // Create the link with the file
-    final anchor =
-        AnchorElement(href: 'data:application/octet-stream;base64,$_base64')
-          ..target = 'blank';
+    final anchor = AnchorElement(
+        href:
+            'data:text/plain;charset=utf-8,${utf8.encode(sectionList.toString())}')
+      ..target = 'blank';
     // add the name
     if (downloadName != null) {
       anchor.download = downloadName;

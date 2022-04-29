@@ -1,9 +1,8 @@
-/*
-List<Map<String, dynamic>> sectionList = [
+/*List<Map<String, dynamic>> sectionList = [
   {
     "data": {
       "title": "Title 1",
-      "choices": ["choice1", "choice2", "choice3"]
+      "choices": ["choice1", "choice2", "choice3", "Choices3"]
     }
   },
   {
@@ -18,6 +17,5 @@ List<Map<String, dynamic>> sectionList = [
       "choices": ["choice1", "choice2", "choice3"]
     }
   },
-];
-*/
+];*/
 List<Map<String, dynamic>> sectionList = [];
