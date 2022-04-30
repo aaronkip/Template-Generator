@@ -2,6 +2,7 @@ import 'dart:convert';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' hide VoidCallback;
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart' as flutter_acrylic;
@@ -34,6 +35,14 @@ bool get isDesktop {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyB0CLaEJjax0LDpYLLSbLeiOxSyoymUSyw",
+      appId: "1:875656627365:web:94a58bdf12f59aceacb94c",
+      messagingSenderId: "875656627365",
+      projectId: "template-g",
+    ),
+  );
   if (kIsWeb ||
       [TargetPlatform.windows, TargetPlatform.android]
           .contains(defaultTargetPlatform)) {

@@ -3,12 +3,14 @@
 import 'dart:convert';
 import 'dart:html';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 
 import '../data/data.dart';
 import '../theme.dart';
+import '../widgets/template_widget.dart';
 
 class GetTemplates extends StatefulWidget {
   const GetTemplates({Key? key, this.controller}) : super(key: key);
@@ -33,42 +35,41 @@ class _GetTemplatesState extends State<GetTemplates> {
           const Center(child: PageHeader(title: Text('Available Templates'))),
       scrollController: widget.controller,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ...List.generate(supportedFormats.length, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: RadioButton(
-                      checked: supportedFormats[index] == "JSON" ? true : false,
-                      onChanged: (value) {},
-                      content: Text(supportedFormats[index]),
-                    ),
-                  );
-                }),
-              ],
-            ),
-          ],
-        ),
-        const SizedBox(height: 50.0),
-        Center(
-          child: Chip.selected(
-            image: const CircleAvatar(
-              radius: 12.0,
-              child: Icon(
-                FluentIcons.download,
-                size: 14.0,
-              ),
-            ),
-            text: const Text('Download'),
-            onPressed: () {
-              showDownloadDialog();
-            },
-          ),
-        ),
+        StreamBuilder<QuerySnapshot>(
+          stream:
+              FirebaseFirestore.instance.collection("templates").snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data != null) {
+              List<DocumentSnapshot>? docs = snapshot.data?.docs ?? [];
+              if (kDebugMode) {
+                print(docs[0].data());
+              }
+              return _buildList(context, snapshot.data?.docs ?? []);
+              /*return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.6,
+                width: MediaQuery.of(context).size.width * 0.7,
+                child:
+
+                ListView.builder(
+                  itemCount: docs.length,
+                  reverse: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    var template = docs[index].data();
+                    return TemplateCard(
+                      title: template['data']['title'],
+                      postFix: template['data']['postFix'],
+                      choiceExample: template['data']['choices'],
+                    );
+                  },
+                ),
+              );*/
+            } else {
+              return const Center(
+                child: ProgressBar(),
+              );
+            }
+          },
+        )
       ],
     );
   }
@@ -121,5 +122,23 @@ class _GetTemplatesState extends State<GetTemplates> {
     anchor.click();
     anchor.remove();
     return;
+  }
+
+  // 1
+  Widget _buildList(BuildContext context, List<DocumentSnapshot>? snapshot) {
+    return ListView(
+      padding: const EdgeInsets.only(top: 20.0),
+      // 2
+      children: snapshot!.map((data) => _buildListItem(context, data)).toList(),
+    );
+  }
+
+// 3
+  Widget _buildListItem(BuildContext context, DocumentSnapshot template) {
+    return TemplateCard(
+      title: template['data']['title'],
+      postFix: template['data']['postFix'],
+      choiceExample: template['data']['choices'],
+    );
   }
 }

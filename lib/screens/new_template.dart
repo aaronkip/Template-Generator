@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:tempgen/helpers/firebase_helper.dart';
 
 import '../data/data.dart';
 
@@ -14,6 +15,7 @@ class NewTemplatePage extends StatefulWidget {
 class _NewTemplatePageState extends State<NewTemplatePage> {
   final _clearController = TextEditingController();
   TextEditingController titleEditingController = TextEditingController();
+  TextEditingController nameEditingController = TextEditingController();
   TextEditingController choicesEditingController = TextEditingController();
   TextEditingController notePostfixController = TextEditingController();
 
@@ -41,6 +43,56 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
       header:
           const PageHeader(title: Center(child: Text('Create New Template'))),
       children: [
+        const SizedBox(height: 20),
+        Row(
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.5,
+              child: TextFormBox(
+                controller: nameEditingController,
+                header: 'Name of Template',
+                placeholder: 'Name of the template',
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (text) {
+                  if (text == null || text.isEmpty) return 'Name Required';
+                  return null;
+                },
+                textInputAction: TextInputAction.next,
+                prefix: const Padding(
+                  padding: EdgeInsetsDirectional.only(start: 8.0),
+                  child: Icon(FluentIcons.rename),
+                ),
+                keyboardType: TextInputType.text,
+              ),
+            ),
+            Chip(
+              semanticLabel: "Upload to cloud storage",
+              image: const CircleAvatar(
+                radius: 12.0,
+                child: Icon(
+                  FluentIcons.save,
+                  size: 14.0,
+                ),
+              ),
+              text: const Text('Save Template'),
+              onPressed: () {
+                if (nameEditingController.text.isNotEmpty) {
+                  templateName = nameEditingController.text;
+                  FirebaseHelper().addTemplate(templateName);
+                } else {}
+              },
+            )
+          ],
+        ),
+        const SizedBox(height: 20),
+        const Center(
+          child: Text(
+            'ADD SECTIONS BELOW',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        const SizedBox(height: 20),
+        const Divider(),
         const SizedBox(height: 20),
         TextFormBox(
           controller: titleEditingController,
