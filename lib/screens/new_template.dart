@@ -65,7 +65,7 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
                 keyboardType: TextInputType.text,
               ),
             ),
-            Chip(
+            Chip.selected(
               semanticLabel: "Upload to cloud storage",
               image: const CircleAvatar(
                 radius: 12.0,
@@ -180,6 +180,7 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
                 });
 
                 titleEditingController.clear();
+                notePostfixController.clear();
                 choicesEditingController.clear();
               },
             ),
@@ -198,35 +199,40 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
           height: MediaQuery.of(context).size.height,
           child: Card(
             elevation: 15,
-            child: ListView.builder(
-                itemCount: sectionList['sections'].length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+            child: sectionList.isNotEmpty
+                ? ListView.builder(
+                    itemCount: sectionList['sections'].length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
                         children: [
-                          Text(
-                            "${sectionList['sections'][index]['data']['title']}"
-                            ':',
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${sectionList['sections'][index]['data']['title']}"
+                                ':',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(width: 10),
+                              Flexible(
+                                child: Text(
+                                  "${sectionList['sections'][index]['data']['choices']}",
+                                  style: const TextStyle(
+                                      fontStyle: FontStyle.italic),
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 10),
-                          Flexible(
-                            child: Text(
-                              "${sectionList['sections'][index]['data']['choices']}",
-                              style:
-                                  const TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
+                          const SizedBox(height: 10),
+                          const Divider(),
+                          const SizedBox(height: 10),
                         ],
-                      ),
-                      const SizedBox(height: 10),
-                      const Divider(),
-                      const SizedBox(height: 10),
-                    ],
-                  );
-                }),
+                      );
+                    })
+                : const Center(
+                    child: Text('No Preview Available'),
+                  ),
           ),
         ),
       ],

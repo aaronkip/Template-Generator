@@ -10,8 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:tempgen/data/data.dart';
-import 'package:tempgen/screens/authentication.dart';
-import 'package:tempgen/screens/download_note.dart';
 import 'package:tempgen/screens/get_templates.dart';
 import 'package:tempgen/screens/new_note.dart';
 import 'package:tempgen/screens/settings.dart';
@@ -100,7 +98,7 @@ class _MyAppState extends State<MyApp> {
           /*home: prefs.getBool('auth')
               ? const MyHomePage()
               : const AuthenticationPage(),*/
-          home: const AuthenticationPage(),
+          home: const MyHomePage(),
           color: appTheme.color,
           darkTheme: ThemeData(
             brightness: Brightness.dark,
@@ -222,12 +220,12 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
             icon: const Icon(FluentIcons.add_notes),
             title: const Text('New Note'),
           ),
-          PaneItem(
+          /*PaneItem(
             icon: const Icon(FluentIcons.download),
             title: const Text('Download'),
-          ),
+          ),*/
           PaneItem(
-            icon: const Icon(FluentIcons.list),
+            icon: const Icon(FluentIcons.cloud),
             title: const Text('Templates'),
           ),
           PaneItemSeparator(),
@@ -251,7 +249,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
       ),
       content: NavigationBody(index: index, children: [
         const NewNotePage(),
-        const DownloadNote(),
+        //const DownloadNote(),
         const GetTemplates(),
         /*const TypographyPage(),
         const Mobile(),

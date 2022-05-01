@@ -53,10 +53,11 @@ class _GetTemplatesState extends State<GetTemplates> {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TemplateCard(
+                        index: index,
+                        template: template,
                         title: template['name'],
                         postFix: template['sections'][0]['data']['postFix'],
-                        choiceExample: template['sections'][0]['data']
-                            ['choices'],
+                        choices: template['sections'][0]['data']['choices'],
                       ),
                     );
                   },
@@ -121,35 +122,5 @@ class _GetTemplatesState extends State<GetTemplates> {
     anchor.click();
     anchor.remove();
     return;
-  }
-
-  // 1
-  Widget _buildList(BuildContext context, List<DocumentSnapshot>? snapshot) {
-    return ListView.builder(
-      itemCount: snapshot!.length,
-      reverse: true,
-      itemBuilder: (BuildContext context, int index) {
-        var template = (snapshot[index].data() as Map<String, dynamic>);
-        if (template != null) {
-          return TemplateCard(
-            title: template[index]['name'],
-            postFix: template[index]['sections']['data']['postFix'],
-            choiceExample: template[index]['sections']['data']['choices'],
-          );
-        } else {
-          return Text('Hello');
-        }
-      },
-    );
-  }
-
-// 3
-  Widget _buildListItem(BuildContext context, DocumentSnapshot template) {
-    print(template['sections']['data']['postFix']);
-    return TemplateCard(
-      title: template['sections']['data']['title'],
-      postFix: template['sections']['data']['postFix'],
-      choiceExample: template['sections']['choices'],
-    );
   }
 }

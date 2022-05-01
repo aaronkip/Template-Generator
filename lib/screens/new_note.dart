@@ -55,68 +55,76 @@ class _NewNotePageState extends State<NewNotePage> {
               children: [
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.5,
-                  child: ListView.builder(
-                      itemCount: sectionList['sections'].length,
-                      itemBuilder: (BuildContext context, int index) {
-                        List<String> choices =
-                            sectionList['sections'][index]['data']['choices'];
-                        List<Widget> chips = [];
-                        for (var i = 1; i < choices.length; i++) {
-                          chips.add(
-                            Chip.selected(
-                              text: Text(
-                                  "${sectionList['sections'][index]['data']['choices'][i]}"),
-                              onPressed: () {},
-                            ),
-                          );
-                        }
-                        return Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                  child: selectedList.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: selectedList['sections'].length,
+                          itemBuilder: (BuildContext context, int index) {
+                            List<dynamic> choices = selectedList['sections']
+                                [index]['data']['choices'];
+                            List<Widget> chips = [];
+                            for (var i = 1; i < choices.length; i++) {
+                              chips.add(
+                                Chip.selected(
+                                  text: Text(
+                                      "${selectedList['sections'][index]['data']['choices'][i]}"),
+                                  onPressed: () {},
+                                ),
+                              );
+                            }
+                            return Column(
                               children: [
-                                Text(
-                                  "${sectionList['sections'][index]['data']['title']}"
-                                  ':',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${selectedList['sections'][index]['data']['title']}"
+                                      ':',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Flexible(
+                                      child: Row(
+                                          children: choices
+                                              .map((e) => Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Chip.selected(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          noteController
+                                                              .text = noteController
+                                                                  .text +
+                                                              e +
+                                                              " " +
+                                                              selectedList['sections']
+                                                                          [
+                                                                          index]
+                                                                      ['data']
+                                                                  ['postFix'] +
+                                                              " ";
+                                                        });
+                                                      },
+                                                      text: Text(e),
+                                                    ),
+                                                  ))
+                                              .toList()),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: 10),
-                                Flexible(
-                                  child: Row(
-                                      children: choices
-                                          .map((e) => Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Chip.selected(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      noteController
-                                                          .text = noteController
-                                                              .text +
-                                                          e +
-                                                          " " +
-                                                          sectionList['sections']
-                                                                      [index]
-                                                                  ['data']
-                                                              ['postFix'] +
-                                                          " ";
-                                                    });
-                                                  },
-                                                  text: Text(e),
-                                                ),
-                                              ))
-                                          .toList()),
-                                ),
+                                const SizedBox(height: 10),
+                                const Divider(),
+                                const SizedBox(height: 10),
+                                //Row(children: notes.map((e) => Text(e)).toList()),
                               ],
-                            ),
-                            const SizedBox(height: 10),
-                            const Divider(),
-                            const SizedBox(height: 10),
-                            //Row(children: notes.map((e) => Text(e)).toList()),
-                          ],
-                        );
-                      }),
+                            );
+                          })
+                      : const Center(
+                          child: Text(
+                            'No template selected! Select a template from the TEMPLATES page or create one.',
+                          ),
+                        ),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.3,
