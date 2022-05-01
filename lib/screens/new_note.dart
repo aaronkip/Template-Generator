@@ -56,16 +56,16 @@ class _NewNotePageState extends State<NewNotePage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.5,
                   child: ListView.builder(
-                      itemCount: sectionList.length,
+                      itemCount: sectionList['sections'].length,
                       itemBuilder: (BuildContext context, int index) {
                         List<String> choices =
-                            sectionList[index]['data']['choices'];
+                            sectionList['sections'][index]['data']['choices'];
                         List<Widget> chips = [];
                         for (var i = 1; i < choices.length; i++) {
                           chips.add(
                             Chip.selected(
                               text: Text(
-                                  "${sectionList[index]['data']['choices'][i]}"),
+                                  "${sectionList['sections'][index]['data']['choices'][i]}"),
                               onPressed: () {},
                             ),
                           );
@@ -76,7 +76,7 @@ class _NewNotePageState extends State<NewNotePage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${sectionList[index]['data']['title']}"
+                                  "${sectionList['sections'][index]['data']['title']}"
                                   ':',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
@@ -91,14 +91,16 @@ class _NewNotePageState extends State<NewNotePage> {
                                                 child: Chip.selected(
                                                   onPressed: () {
                                                     setState(() {
-                                                      noteController.text =
-                                                          noteController.text +
-                                                              e +
-                                                              " " +
-                                                              sectionList[index]
-                                                                      ['data']
-                                                                  ['postFix'] +
-                                                              " ";
+                                                      noteController
+                                                          .text = noteController
+                                                              .text +
+                                                          e +
+                                                          " " +
+                                                          sectionList['sections']
+                                                                      [index]
+                                                                  ['data']
+                                                              ['postFix'] +
+                                                          " ";
                                                     });
                                                   },
                                                   text: Text(e),

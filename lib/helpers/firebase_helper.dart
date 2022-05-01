@@ -5,8 +5,7 @@ class FirebaseHelper {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   void addTemplate(String name) async {
-    for (var i in sectionList) {
-      await _db.collection("templates").doc(name).collection("data").add(i);
-    }
+    sectionList['name'] = name;
+    await _db.collection('templates').add(sectionList);
   }
 }

@@ -35,40 +35,39 @@ class _GetTemplatesState extends State<GetTemplates> {
           const Center(child: PageHeader(title: Text('Available Templates'))),
       scrollController: widget.controller,
       children: [
-        StreamBuilder<QuerySnapshot>(
-          stream:
-              FirebaseFirestore.instance.collection("templates").snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data != null) {
-              List<DocumentSnapshot>? docs = snapshot.data?.docs ?? [];
-              if (kDebugMode) {
-                print(docs[0].data());
-              }
-              return _buildList(context, snapshot.data?.docs ?? []);
-              /*return SizedBox(
-                height: MediaQuery.of(context).size.height * 0.6,
-                width: MediaQuery.of(context).size.width * 0.7,
-                child:
-
-                ListView.builder(
-                  itemCount: docs.length,
-                  reverse: true,
+        SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: StreamBuilder(
+            stream:
+                FirebaseFirestore.instance.collection('templates').snapshots(),
+            builder: (BuildContext context,
+                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+              if (snapshot.hasData) {
+                List<dynamic>? docs = snapshot.data?.docs;
+                return ListView.builder(
+                  itemCount: docs?.length,
+                  reverse: false,
                   itemBuilder: (BuildContext context, int index) {
-                    var template = docs[index].data();
-                    return TemplateCard(
-                      title: template['data']['title'],
-                      postFix: template['data']['postFix'],
-                      choiceExample: template['data']['choices'],
+                    var template = docs![index].data();
+                    print(template);
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TemplateCard(
+                        title: template['name'],
+                        postFix: template['sections'][0]['data']['postFix'],
+                        choiceExample: template['sections'][0]['data']
+                            ['choices'],
+                      ),
                     );
                   },
-                ),
-              );*/
-            } else {
-              return const Center(
-                child: ProgressBar(),
-              );
-            }
-          },
+                );
+              } else {
+                return const Center(
+                  child: ProgressBar(),
+                );
+              }
+            },
+          ),
         )
       ],
     );
@@ -126,19 +125,31 @@ class _GetTemplatesState extends State<GetTemplates> {
 
   // 1
   Widget _buildList(BuildContext context, List<DocumentSnapshot>? snapshot) {
-    return ListView(
-      padding: const EdgeInsets.only(top: 20.0),
-      // 2
-      children: snapshot!.map((data) => _buildListItem(context, data)).toList(),
+    return ListView.builder(
+      itemCount: snapshot!.length,
+      reverse: true,
+      itemBuilder: (BuildContext context, int index) {
+        var template = (snapshot[index].data() as Map<String, dynamic>);
+        if (template != null) {
+          return TemplateCard(
+            title: template[index]['name'],
+            postFix: template[index]['sections']['data']['postFix'],
+            choiceExample: template[index]['sections']['data']['choices'],
+          );
+        } else {
+          return Text('Hello');
+        }
+      },
     );
   }
 
 // 3
   Widget _buildListItem(BuildContext context, DocumentSnapshot template) {
+    print(template['sections']['data']['postFix']);
     return TemplateCard(
-      title: template['data']['title'],
-      postFix: template['data']['postFix'],
-      choiceExample: template['data']['choices'],
+      title: template['sections']['data']['title'],
+      postFix: template['sections']['data']['postFix'],
+      choiceExample: template['sections']['choices'],
     );
   }
 }

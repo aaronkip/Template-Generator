@@ -1,7 +1,7 @@
 class Template {
   String title;
   String postFix;
-  List<String> choices;
+  List<dynamic> choices;
 
   Template({required this.title, required this.postFix, required this.choices});
 

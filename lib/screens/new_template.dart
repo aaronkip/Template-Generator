@@ -170,7 +170,7 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
                   List<String> choices =
                       splitChoices(choicesEditingController.text);
 
-                  sectionList.add({
+                  sectionList['sections'].add({
                     "data": {
                       "title": titleEditingController.text,
                       "choices": choices,
@@ -199,7 +199,7 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
           child: Card(
             elevation: 15,
             child: ListView.builder(
-                itemCount: sectionList.length,
+                itemCount: sectionList['sections'].length,
                 itemBuilder: (BuildContext context, int index) {
                   return Column(
                     children: [
@@ -207,13 +207,14 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            "${sectionList[index]['data']['title']}" ':',
+                            "${sectionList['sections'][index]['data']['title']}"
+                            ':',
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(width: 10),
                           Flexible(
                             child: Text(
-                              "${sectionList[index]['data']['choices']}",
+                              "${sectionList['sections'][index]['data']['choices']}",
                               style:
                                   const TextStyle(fontStyle: FontStyle.italic),
                             ),
