@@ -7,8 +7,10 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart' as flutter_acrylic;
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:tempgen/data/data.dart';
+import 'package:tempgen/screens/authentication.dart';
 import 'package:tempgen/screens/download_note.dart';
 import 'package:tempgen/screens/get_templates.dart';
 import 'package:tempgen/screens/new_note.dart';
@@ -32,9 +34,12 @@ bool get isDesktop {
   ].contains(defaultTargetPlatform);
 }
 
+var prefs;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  /*SharedPreferences _prefs = await SharedPreferences.getInstance();
+  prefs = _prefs.getBool('auth');*/
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: "AIzaSyB0CLaEJjax0LDpYLLSbLeiOxSyoymUSyw",
@@ -66,11 +71,21 @@ void main() async {
     });
   }
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +97,10 @@ class MyApp extends StatelessWidget {
           title: appTitle,
           themeMode: appTheme.mode,
           debugShowCheckedModeBanner: false,
-          home: const MyHomePage(),
+          /*home: prefs.getBool('auth')
+              ? const MyHomePage()
+              : const AuthenticationPage(),*/
+          home: const AuthenticationPage(),
           color: appTheme.color,
           darkTheme: ThemeData(
             brightness: Brightness.dark,
@@ -128,11 +146,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with WindowListener {
   bool value = false;
-
+  late SharedPreferences prefs;
   int index = 0;
 
   final settingsController = ScrollController();
   final viewKey = GlobalKey();
+
+  getPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+  }
 
   @override
   void initState() {

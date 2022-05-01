@@ -1,6 +1,5 @@
 String templateName = "";
 Map<String, dynamic> sectionList = {
-  "title": "",
   "sections": [
     {
       "data": {
