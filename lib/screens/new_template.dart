@@ -1,7 +1,9 @@
 // ignore_for_file: avoid_print
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:provider/provider.dart';
 import 'package:tempgen/helpers/firebase_helper.dart';
+import 'package:tempgen/theme.dart';
 
 import '../data/data.dart';
 
@@ -39,6 +41,7 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
 
   @override
   Widget build(BuildContext context) {
+    final data = context.watch<AppTheme>();
     return ScaffoldPage.scrollable(
       header:
           const PageHeader(title: Center(child: Text('Create New Template'))),

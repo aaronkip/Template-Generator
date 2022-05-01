@@ -1,5 +1,8 @@
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:tempgen/data/data.dart';
+import 'package:provider/provider.dart';
+import 'package:tempgen/theme.dart';
+
+import '../data/data.dart';
 
 class TemplateCard extends StatefulWidget {
   final int index;
@@ -21,22 +24,16 @@ class TemplateCard extends StatefulWidget {
 }
 
 class _TemplateCardState extends State<TemplateCard> {
-  setTemplate() {
-    selectedList = widget.template;
-  }
+  bool _isSelected = false;
 
   @override
   void initState() {
-    if (widget.index == selectedIndex) {
-      setState(() {
-        setTemplate();
-      });
-    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final data = context.watch<AppTheme>();
     return Card(
       elevation: 8.0,
       child: ListTile(
@@ -53,10 +50,14 @@ class _TemplateCardState extends State<TemplateCard> {
             widget.postFix +
             "..."),
         trailing: RadioButton(
-          checked: widget.index == selectedIndex ? true : false,
+          checked: _isSelected,
           onChanged: (bool value) {
             setState(() {
               selectedIndex = value ? widget.index : 0;
+              if (selectedIndex == widget.index) {
+                selectedList = widget.template;
+              }
+              _isSelected = value;
             });
           },
         ),

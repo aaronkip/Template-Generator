@@ -88,16 +88,19 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => AppTheme(),
+      create: (_) {
+        return AppTheme();
+      },
       builder: (context, _) {
         final appTheme = context.watch<AppTheme>();
+        //final data = context.watch<DataProvider>();
         return FluentApp(
           title: appTitle,
           themeMode: appTheme.mode,
           debugShowCheckedModeBanner: false,
           /*home: prefs.getBool('auth')
-              ? const MyHomePage()
-              : const AuthenticationPage(),*/
+                ? const MyHomePage()
+                : const AuthenticationPage(),*/
           home: const MyHomePage(),
           color: appTheme.color,
           darkTheme: ThemeData(

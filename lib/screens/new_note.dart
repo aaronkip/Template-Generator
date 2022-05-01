@@ -2,10 +2,12 @@
 
 import 'package:clipboard/clipboard.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:provider/provider.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../data/data.dart';
+import '../theme.dart';
 
 class NewNotePage extends StatefulWidget {
   const NewNotePage({Key? key}) : super(key: key);
@@ -42,6 +44,7 @@ class _NewNotePageState extends State<NewNotePage> {
 
   @override
   Widget build(BuildContext context) {
+    final data = context.watch<AppTheme>();
     return ScaffoldPage.scrollable(
       header: const PageHeader(title: Center(child: Text('Create New Note'))),
       children: [

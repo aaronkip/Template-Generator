@@ -1,14 +1,10 @@
 // ignore_for_file: constant_identifier_names
 
-import 'dart:convert';
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 
-import '../data/data.dart';
 import '../theme.dart';
 import '../widgets/template_widget.dart';
 
@@ -26,6 +22,7 @@ class _GetTemplatesState extends State<GetTemplates> {
 
   @override
   Widget build(BuildContext context) {
+    final data = context.watch<AppTheme>();
     assert(debugCheckHasMediaQuery(context));
     final appTheme = context.watch<AppTheme>();
     const spacer = SizedBox(height: 10.0);
@@ -49,7 +46,9 @@ class _GetTemplatesState extends State<GetTemplates> {
                   reverse: false,
                   itemBuilder: (BuildContext context, int index) {
                     var template = docs![index].data();
-                    print(template);
+                    if (kDebugMode) {
+                      print(template);
+                    }
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TemplateCard(
@@ -74,7 +73,7 @@ class _GetTemplatesState extends State<GetTemplates> {
     );
   }
 
-  showDownloadDialog() {
+  /*showDownloadDialog() {
     showDialog(
       context: context,
       builder: (_) {
@@ -100,9 +99,9 @@ class _GetTemplatesState extends State<GetTemplates> {
         );
       },
     );
-  }
+  }*/
 
-  void download(
+  /*void download(
     List<int> bytes, {
     required String downloadName,
   }) {
@@ -122,5 +121,5 @@ class _GetTemplatesState extends State<GetTemplates> {
     anchor.click();
     anchor.remove();
     return;
-  }
+  }*/
 }
