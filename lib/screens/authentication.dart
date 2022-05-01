@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:tempgen/helpers/firebase_helper.dart';
 import 'package:tempgen/main.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-class AuthenticationPage extends StatelessWidget {
+class AuthenticationPage extends StatefulWidget {
   const AuthenticationPage({Key? key}) : super(key: key);
+
+  @override
+  State<AuthenticationPage> createState() => _AuthenticationPageState();
+}
+
+class _AuthenticationPageState extends State<AuthenticationPage> {
+  final TextEditingController _emailEditingController = TextEditingController();
+  final TextEditingController _passwordEditingController =
+      TextEditingController();
+
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,14 +27,15 @@ class AuthenticationPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 12),
-                    child: Image.asset("images/login.png"),
+              const Center(
+                child: Padding(
+                  padding: EdgeInsets.only(right: 12),
+                  child: Icon(
+                    Icons.verified_user,
+                    color: Colors.blue,
+                    size: 40,
                   ),
-                  Expanded(child: Container()),
-                ],
+                ),
               ),
               const SizedBox(
                 height: 30,
@@ -48,9 +63,10 @@ class AuthenticationPage extends StatelessWidget {
                 height: 15,
               ),
               TextField(
+                controller: _emailEditingController,
                 decoration: InputDecoration(
                     labelText: "Email",
-                    hintText: "abc@domain.com",
+                    hintText: "email@domain.com",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
@@ -59,9 +75,10 @@ class AuthenticationPage extends StatelessWidget {
               ),
               TextField(
                 obscureText: true,
+                controller: _passwordEditingController,
                 decoration: InputDecoration(
                     labelText: "Password",
-                    hintText: "123",
+                    hintText: "******",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
@@ -96,8 +113,36 @@ class AuthenticationPage extends StatelessWidget {
               InkWell(
                 onTap: () {
                   //Get.offAllNamed(rootRoute);
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const MyHomePage()));
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  if (_passwordEditingController.text.isNotEmpty &&
+                      _emailEditingController.text.isNotEmpty) {
+                    FirebaseHelper()
+                        .signInWithEmailPassword(_emailEditingController.text,
+                            _passwordEditingController.text)
+                        .then((value) {
+                      if (value != null) {
+                        _isLoading = false;
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const MyHomePage()));
+                      } else {
+                        showTopSnackBar(
+                            context,
+                            const Center(
+                              child: Text(
+                                'Login failed. Please check your credentials and try again.',
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ));
+                      }
+                    });
+                  }
+                  setState(() {
+                    _isLoading = false;
+                  });
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -106,11 +151,13 @@ class AuthenticationPage extends StatelessWidget {
                   alignment: Alignment.center,
                   width: double.maxFinite,
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: const CustomText(
-                      text: "Login",
-                      color: Colors.white,
-                      weight: FontWeight.normal,
-                      size: 16),
+                  child: _isLoading
+                      ? const CircularProgressIndicator()
+                      : const CustomText(
+                          text: "Login",
+                          color: Colors.white,
+                          weight: FontWeight.normal,
+                          size: 16),
                 ),
               ),
               const SizedBox(
