@@ -57,6 +57,8 @@ class _TemplateCardState extends State<TemplateCard> {
               if (selectedIndex == widget.index) {
                 selectedList = widget.template;
               }
+
+              ///TODO: Add RX Component
               _isSelected = value;
             });
           },
