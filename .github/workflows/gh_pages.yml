@@ -24,7 +24,7 @@ jobs:
         run: |
           cd build/web
           git init
-          git config user.name "cyenite"
+          git config user.name "aarkip"
           git config user.email "aaronrono42@gmail.com"
           git remote add secure-origin https://username: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@github.com/cyenite/Template-Generator.git
           git checkout -b gh-pages
