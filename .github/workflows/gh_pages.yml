@@ -16,10 +16,10 @@ jobs:
           channel: stable
       - name: Install Dependencies
         run: flutter pub get
-        working-directory: /
+        #working-directory: ./
       - name: Build Web
         run: flutter build web --release --source-maps
-        working-directory: /
+        #working-directory: ./
       - name: Deploy
         run: |
           cd build/web
