@@ -10,7 +10,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:tempgen/data/data.dart';
+import 'package:tempgen/data/preference_repository.dart';
 import 'package:tempgen/screens/get_templates.dart';
+import 'package:tempgen/screens/login.dart';
 import 'package:tempgen/screens/new_note.dart';
 import 'package:tempgen/screens/settings.dart';
 import 'package:url_launcher/link.dart';
@@ -68,7 +70,7 @@ void main() async {
       await windowManager.setSkipTaskbar(false);
     });
   }
-
+  prefs = await SharedPreferences.getInstance();
   runApp(MyApp());
 }
 
@@ -98,10 +100,10 @@ class _MyAppState extends State<MyApp> {
           title: appTitle,
           themeMode: appTheme.mode,
           debugShowCheckedModeBanner: false,
-          /*home: prefs.getBool('auth')
-                ? const MyHomePage()
-                : const AuthenticationPage(),*/
-          home: const MyHomePage(),
+          home: SharedPreferencesRepository.getBool('auth')
+              ? const MyHomePage()
+              : const LoginPage(),
+          // home: const MyHomePage(),
           color: appTheme.color,
           darkTheme: ThemeData(
             brightness: Brightness.dark,

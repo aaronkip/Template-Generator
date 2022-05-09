@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:tempgen/helpers/firebase_helper.dart';
 import 'package:tempgen/main.dart';
+import 'package:tempgen/screens/signup.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-class AuthenticationPage extends StatefulWidget {
-  const AuthenticationPage({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<AuthenticationPage> createState() => _AuthenticationPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _AuthenticationPageState extends State<AuthenticationPage> {
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailEditingController = TextEditingController();
   final TextEditingController _passwordEditingController =
       TextEditingController();
@@ -53,7 +54,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               Row(
                 children: const [
                   CustomText(
-                      text: "Welcome back to the admin panel.",
+                      text: "Welcome back.",
                       color: Colors.grey,
                       weight: FontWeight.normal,
                       size: 14),
@@ -163,13 +164,18 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               const SizedBox(
                 height: 15,
               ),
-              RichText(
-                  text: const TextSpan(children: [
-                TextSpan(text: "Do not have admin credentials? "),
-                TextSpan(
-                    text: "Request Credentials! ",
-                    style: TextStyle(color: Colors.green))
-              ]))
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const RegistrationPage()));
+                },
+                child: RichText(
+                    text: const TextSpan(children: [
+                  TextSpan(text: "Do not have login credentials? "),
+                  TextSpan(
+                      text: "Sign Up! ", style: TextStyle(color: Colors.green))
+                ])),
+              )
             ],
           ),
         ),
