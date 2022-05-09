@@ -1,9 +1,11 @@
 // ignore_for_file: avoid_print
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:tempgen/helpers/firebase_helper.dart';
 import 'package:tempgen/theme.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../data/data.dart';
 
@@ -20,7 +22,8 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
   TextEditingController nameEditingController = TextEditingController();
   TextEditingController choicesEditingController = TextEditingController();
   TextEditingController notePostfixController = TextEditingController();
-
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  late String uid;
   String? comboBoxValue;
 
   DateTime date = DateTime.now();
@@ -28,6 +31,7 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
   @override
   void initState() {
     super.initState();
+    uid = auth.currentUser!.uid;
     _clearController.addListener(() {
       if (_clearController.text.length == 1 && mounted) setState(() {});
     });
@@ -79,10 +83,35 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
               ),
               text: const Text('Save Template'),
               onPressed: () {
-                if (nameEditingController.text.isNotEmpty) {
-                  templateName = nameEditingController.text;
-                  FirebaseHelper().addTemplate(templateName);
-                } else {}
+                if (sectionList['sections'].isEmpty) {
+                  showTopSnackBar(
+                    context,
+                    Center(
+                      child: Text(
+                        "New template cannot be empty",
+                        style: TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  );
+                } else {
+                  if (nameEditingController.text.isNotEmpty) {
+                    templateName = nameEditingController.text;
+                    FirebaseHelper().addTemplate(templateName, uid);
+                    print(uid);
+                  } else {
+                    showTopSnackBar(
+                      context,
+                      Center(
+                        child: Text(
+                          "Enter Template Name!",
+                          style: TextStyle(
+                              color: Colors.red, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    );
+                  }
+                }
               },
             )
           ],

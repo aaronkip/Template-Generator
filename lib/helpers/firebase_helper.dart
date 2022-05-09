@@ -1,21 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tempgen/data/data.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class FirebaseHelper {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   String? uid;
   String? userEmail;
 
-  void addTemplate(String name) async {
+  void addTemplate(String name, userId) async {
     sectionList['name'] = name;
+    sectionList['uid'] = userId;
     await _db.collection('templates').add(sectionList);
   }
 
-  Future<User?> registerWithEmailPassword(String email, String password) async {
+  Future<User?> registerWithEmailPassword(
+      String email, String password, BuildContext context) async {
     User? user;
     try {
       UserCredential userCredential =
@@ -32,8 +35,12 @@ class FirebaseHelper {
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
+        showTopSnackBar(
+            context, const Text('The password provided is too weak.'));
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
+        showTopSnackBar(
+            context, const Text('An account already exists for that email.'));
         print('An account already exists for that email.');
       }
     } catch (e) {

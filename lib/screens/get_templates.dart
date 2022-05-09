@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,14 @@ class GetTemplates extends StatefulWidget {
 
 class _GetTemplatesState extends State<GetTemplates> {
   List<String> supportedFormats = ["JSON", "Text", "Markdown"];
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  late String uid;
+
+  @override
+  void initState() {
+    uid = auth.currentUser!.uid;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,16 +58,20 @@ class _GetTemplatesState extends State<GetTemplates> {
                     if (kDebugMode) {
                       print(template);
                     }
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TemplateCard(
-                        index: index,
-                        template: template,
-                        title: template['name'],
-                        postFix: template['sections'][0]['data']['postFix'],
-                        choices: template['sections'][0]['data']['choices'],
-                      ),
-                    );
+                    if (template['uid'] == uid) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TemplateCard(
+                          index: index,
+                          template: template,
+                          title: template['name'],
+                          postFix: template['sections'][0]['data']['postFix'],
+                          choices: template['sections'][0]['data']['choices'],
+                        ),
+                      );
+                    } else {
+                      return const Center();
+                    }
                   },
                 );
               } else {
