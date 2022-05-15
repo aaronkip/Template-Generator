@@ -106,7 +106,7 @@ class _NewNotePageState extends State<NewNotePage> {
                                                                           index]
                                                                       ['data']
                                                                   ['postFix'] +
-                                                              " ";
+                                                              " \n";
                                                         });
                                                       },
                                                       text: Text(e),

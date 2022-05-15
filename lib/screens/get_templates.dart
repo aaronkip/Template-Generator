@@ -55,13 +55,16 @@ class _GetTemplatesState extends State<GetTemplates> {
                   reverse: false,
                   itemBuilder: (BuildContext context, int index) {
                     var template = docs![index].data();
+                    DocumentReference _ref = docs[index].reference;
                     if (kDebugMode) {
                       print(template);
+                      print("\n\n\nReference: " + _ref.id + "\n\n\n");
                     }
                     if (template['uid'] == uid) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TemplateCard(
+                          docId: _ref.id,
                           index: index,
                           template: template,
                           title: template['name'],

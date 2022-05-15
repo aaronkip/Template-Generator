@@ -17,6 +17,10 @@ class FirebaseHelper {
     await _db.collection('templates').add(sectionList);
   }
 
+  void deleteTemplate(String docId) async {
+    await _db.collection('templates').doc(docId).delete();
+  }
+
   Future<User?> registerWithEmailPassword(
       String email, String password, BuildContext context) async {
     User? user;
