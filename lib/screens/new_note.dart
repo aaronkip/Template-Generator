@@ -132,17 +132,29 @@ class _NewNotePageState extends State<NewNotePage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.3,
                   child: TextFormBox(
-                    onTap: () {
+                    controller: noteController,
+                    minLines: 10,
+                    maxLines: 50,
+                  ),
+                ),
+                Center(
+                  child: Chip.selected(
+                    semanticLabel: "Copy To Clipboard",
+                    image: const CircleAvatar(
+                      radius: 12.0,
+                      child: Icon(
+                        FluentIcons.copy,
+                        size: 14.0,
+                      ),
+                    ),
+                    text: const Text('Copy To Clipboard'),
+                    onPressed: () {
                       FlutterClipboard.copy(noteController.text);
                       showTopSnackBar(
                           context,
                           const CustomSnackBar.success(
                               message: "Note copied to clipboard"));
                     },
-                    readOnly: true,
-                    controller: noteController,
-                    minLines: 20,
-                    maxLines: 50,
                   ),
                 ),
               ],
