@@ -23,6 +23,10 @@ class _NewNotePageState extends State<NewNotePage> {
   TextEditingController noteController = TextEditingController();
   List<String> notes = [];
   String note = "";
+  Map<String, dynamic> _sections = {
+    "data": [],
+  };
+  List<String> choices = [];
 
   String? comboBoxValue;
 
@@ -33,6 +37,52 @@ class _NewNotePageState extends State<NewNotePage> {
     super.initState();
     _clearController.addListener(() {
       if (_clearController.text.length == 1 && mounted) setState(() {});
+    });
+  }
+
+  void updateNotes(String prefix, String choice) {
+    bool prefixExists = false;
+
+    ///1. Looping through sections map
+    if (_sections['data'].length == 0) {
+      print("Sections empty");
+      _sections['data'].add({
+        'prefix': prefix,
+        'choice': choice,
+      });
+    } else {
+      for (int i = 0; i < _sections['data'].length; i++) {
+        if (_sections['data'][i]['prefix'] == prefix) {
+          prefixExists = true;
+          _sections['data'][i]['choice'] =
+              _sections['data'][i]['choice'] + ", " + choice;
+        } else {
+          prefixExists = prefixExists ? true : false;
+        }
+      }
+      if (!prefixExists) {
+        _sections['data'].add({
+          'prefix': prefix,
+          'choice': choice,
+        });
+      }
+    }
+
+    print(_sections);
+
+    ///2. Assigning map values to noteController
+    note = "";
+    for (int i = 0; i < _sections['data'].length; i++) {
+      note = note +
+          _sections['data'][i]['choice'] +
+          " " +
+          _sections['data'][i]['prefix'] +
+          "\n";
+    }
+    print(note);
+    setState(() {
+      noteController.clear();
+      noteController.text = note;
     });
   }
 
@@ -95,8 +145,9 @@ class _NewNotePageState extends State<NewNotePage> {
                                                             8.0),
                                                     child: Chip.selected(
                                                       onPressed: () {
-                                                        setState(() {
-                                                          noteController
+                                                        setState(
+                                                          () {
+                                                            /* noteController
                                                               .text = noteController
                                                                   .text +
                                                               e +
@@ -106,8 +157,25 @@ class _NewNotePageState extends State<NewNotePage> {
                                                                           index]
                                                                       ['data']
                                                                   ['postFix'] +
-                                                              " \n";
-                                                        });
+                                                              " \n";*/
+                                                            /*_notes['data'].add({
+                                                            selectedList['sections']
+                                                                            [
+                                                                            index]
+                                                                        ['data']
+                                                                    ['postFix']
+                                                                .toString(): e
+                                                          });*/
+                                                            updateNotes(
+                                                                selectedList['sections'][index]
+                                                                            [
+                                                                            'data']
+                                                                        [
+                                                                        'postFix']
+                                                                    .toString(),
+                                                                e);
+                                                          },
+                                                        );
                                                       },
                                                       text: Text(e),
                                                     ),
@@ -134,7 +202,7 @@ class _NewNotePageState extends State<NewNotePage> {
                   child: TextFormBox(
                     controller: noteController,
                     minLines: 10,
-                    maxLines: 50,
+                    maxLines: 200,
                   ),
                 ),
                 Center(

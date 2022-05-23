@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tempgen/main.dart';
 import 'package:tempgen/screens/signup.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../helpers/firebase_helper.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -115,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                   setState(() {
                     _isLoading = true;
                   });
-                  /*if (_passwordEditingController.text.isNotEmpty &&
+                  if (_passwordEditingController.text.isNotEmpty &&
                       _emailEditingController.text.isNotEmpty) {
                     FirebaseHelper()
                         .signInWithEmailPassword(_emailEditingController.text,
@@ -138,12 +141,12 @@ class _LoginPageState extends State<LoginPage> {
                             ));
                       }
                     });
-                  }*/
-                  Navigator.of(context).push(MaterialPageRoute(
+                  }
+                  /*Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const MyHomePage()));
                   setState(() {
                     _isLoading = false;
-                  });
+                  });*/
                 },
                 child: Container(
                   decoration: BoxDecoration(
