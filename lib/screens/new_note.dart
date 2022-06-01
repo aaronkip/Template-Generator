@@ -74,9 +74,9 @@ class _NewNotePageState extends State<NewNotePage> {
     note = "";
     for (int i = 0; i < _sections['data'].length; i++) {
       note = note +
-          _sections['data'][i]['choice'] +
-          " " +
           _sections['data'][i]['prefix'] +
+          " " +
+          _sections['data'][i]['choice'] +
           "\n";
     }
     print(note);

@@ -17,6 +17,12 @@ class FirebaseHelper {
     await _db.collection('templates').add(sectionList);
   }
 
+  void saveEditedTemplate(String name, userId) async {
+    selectedList['name'] = name;
+    selectedList['uid'] = userId;
+    await _db.collection('templates').add(selectedList);
+  }
+
   void deleteTemplate(String docId) async {
     await _db.collection('templates').doc(docId).delete();
   }

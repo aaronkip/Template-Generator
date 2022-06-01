@@ -35,6 +35,7 @@ class _NewTemplatePageState extends State<NewTemplatePage> {
     _clearController.addListener(() {
       if (_clearController.text.length == 1 && mounted) setState(() {});
     });
+    sectionList = {"sections": []};
   }
 
   @override

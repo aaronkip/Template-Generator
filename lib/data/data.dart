@@ -1,5 +1,5 @@
 String templateName = "";
-Map<String, dynamic> sectionList = {
+/*Map<String, dynamic> sectionList = {
   "sections": [
     {
       "data": {
@@ -23,10 +23,10 @@ Map<String, dynamic> sectionList = {
       }
     },
   ],
-};
+};*/
 int selectedIndex = 0;
 Map<String, dynamic> selectedList = {};
-//Map<String, dynamic> sectionList = {"sections": []};
+Map<String, dynamic> sectionList = {"sections": []};
 
 /*
 void updateNotes(String prefix, String choice) {

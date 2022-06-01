@@ -2,8 +2,11 @@
 
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide Tooltip, Colors, Chip, ButtonStyle;
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:provider/provider.dart';
+import 'package:tempgen/helpers/user_preferences.dart';
+import 'package:tempgen/screens/login.dart';
 
 import '../theme.dart';
 
@@ -129,6 +132,29 @@ class Settings extends StatelessWidget {
             );
           }),
         ]),
+        spacer,
+        spacer,
+        spacer,
+        Center(
+          child: SizedBox(
+            width: 100,
+            child: Chip.selected(
+              image: const CircleAvatar(
+                radius: 12.0,
+                child: Icon(
+                  FluentIcons.lock,
+                  size: 14.0,
+                ),
+              ),
+              text: const Text('Logout'),
+              onPressed: () {
+                UserPrefs().clearPreferences();
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
+              },
+            ),
+          ),
+        ),
       ],
     );
   }

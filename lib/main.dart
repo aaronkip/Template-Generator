@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:tempgen/data/data.dart';
 import 'package:tempgen/data/preference_repository.dart';
+import 'package:tempgen/screens/edit_template.dart';
 import 'package:tempgen/screens/get_templates.dart';
 import 'package:tempgen/screens/login.dart';
 import 'package:tempgen/screens/new_note.dart';
@@ -233,6 +234,10 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
             icon: const Icon(FluentIcons.cloud),
             title: const Text('Templates'),
           ),
+          PaneItem(
+            icon: const Icon(FluentIcons.edit),
+            title: const Text('Edit Template'),
+          ),
           PaneItemSeparator(),
         ],
         /*autoSuggestBox: AutoSuggestBox(
@@ -261,6 +266,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
         const CommandBars(),
         const FlyoutShowcase(),
         const Others(),*/
+        const EditTemplatePage(),
         const NewTemplatePage(),
         Settings(controller: settingsController),
       ]),

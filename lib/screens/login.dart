@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tempgen/helpers/user_preferences.dart';
 import 'package:tempgen/main.dart';
 import 'package:tempgen/screens/signup.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -18,6 +20,25 @@ class _LoginPageState extends State<LoginPage> {
       TextEditingController();
 
   bool _isLoading = false;
+
+  Future<bool> getUSer() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    if (_prefs.getString("email")!.isNotEmpty &&
+        _prefs.getString("password")!.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUSer().then((value) => value
+        ? Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const MyHomePage()))
+        : _isLoading = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +147,9 @@ class _LoginPageState extends State<LoginPage> {
                         .then((value) {
                       if (value != null) {
                         _isLoading = false;
+                        UserPrefs().savePreferences(
+                            _emailEditingController.text,
+                            _passwordEditingController.text);
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const MyHomePage()));
                       } else {
