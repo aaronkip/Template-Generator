@@ -1,4 +1,5 @@
 String templateName = "";
+String globalEmail = "";
 /*Map<String, dynamic> sectionList = {
   "sections": [
     {

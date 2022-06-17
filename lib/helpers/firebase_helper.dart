@@ -10,6 +10,7 @@ class FirebaseHelper {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String? uid;
   String? userEmail;
+  String? userRole;
 
   void addTemplate(String name, userId) async {
     sectionList['name'] = name;
@@ -28,7 +29,8 @@ class FirebaseHelper {
   }
 
   Future<User?> registerWithEmailPassword(
-      String email, String password, BuildContext context) async {
+      String email, String password, String role, BuildContext context) async {
+    SharedPreferences _preferences = await SharedPreferences.getInstance();
     User? user;
     try {
       UserCredential userCredential =
@@ -42,6 +44,9 @@ class FirebaseHelper {
       if (user != null) {
         uid = user.uid;
         userEmail = user.email;
+        await _db
+            .collection('users')
+            .add({"userRole": role, "uid": uid, "email": userEmail});
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -72,6 +77,7 @@ class FirebaseHelper {
         uid = user.uid;
         userEmail = user.email;
         SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("email", email);
         await prefs.setBool('auth', true);
       }
     } on FirebaseAuthException catch (e) {

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tempgen/helpers/user_preferences.dart';
 import 'package:tempgen/main.dart';
-import 'package:tempgen/screens/signup.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../helpers/firebase_helper.dart';
@@ -191,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 15,
               ),
-              GestureDetector(
+              /* GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const RegistrationPage()));
@@ -202,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextSpan(
                       text: "Sign Up! ", style: TextStyle(color: Colors.green))
                 ])),
-              )
+              )*/
             ],
           ),
         ),

@@ -13,7 +13,7 @@ import 'package:tempgen/data/data.dart';
 import 'package:tempgen/data/preference_repository.dart';
 import 'package:tempgen/screens/edit_template.dart';
 import 'package:tempgen/screens/get_templates.dart';
-import 'package:tempgen/screens/login.dart';
+import 'package:tempgen/screens/home/home.dart';
 import 'package:tempgen/screens/new_note.dart';
 import 'package:tempgen/screens/settings.dart';
 import 'package:url_launcher/link.dart';
@@ -103,7 +103,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           home: SharedPreferencesRepository.getBool('auth')
               ? const MyHomePage()
-              : const LoginPage(),
+              : LandingPage(),
           // home: const MyHomePage(),
           color: appTheme.color,
           darkTheme: ThemeData(

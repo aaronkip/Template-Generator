@@ -114,7 +114,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       _emailEditingController.text.isNotEmpty) {
                     FirebaseHelper()
                         .registerWithEmailPassword(_emailEditingController.text,
-                            _passwordEditingController.text, context)
+                            _passwordEditingController.text, "user", context)
                         .then((value) {
                       if (value != null) {
                         _isLoading = false;
