@@ -13,11 +13,11 @@ class DesktopScreen extends StatelessWidget {
 
   launchMailto() async {
     final mailtoLink = Mailto(
-      to: ['kenovadevs@gmail.com'],
+      to: ['kosai.pairo@hotmail.com'],
       //cc: ['cc1@example.com', 'cc2@example.com'],
       subject: 'Subscription Request',
       body:
-          'Hello there, \nRequesting for my email to be added to the note editing website.',
+          'Hello there, \nRequesting for my credentials to be added to the template maker and note editing website.',
     );
     // Convert the Mailto instance into a string.
     // Use either Dart's string interpolation

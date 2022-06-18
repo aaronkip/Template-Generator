@@ -160,7 +160,7 @@ class _SettingsState extends State<Settings> {
         StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('users')
-              .where("email", isEqualTo: "kenovadevs@gmail.com")
+              .where("email", isEqualTo: "kosai.pairo@hotmail.com")
               .snapshots(),
           builder: (BuildContext context,
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
@@ -181,7 +181,7 @@ class _SettingsState extends State<Settings> {
         StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('users')
-              .where("email", isEqualTo: email)
+              .where("email", isEqualTo: "kosai.pairo@hotmail.com")
               .snapshots(),
           builder: (BuildContext context,
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
